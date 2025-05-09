@@ -48,7 +48,7 @@ Mathio is more than just a calculator—it’s a learning companion, a problem s
 ✔ Graphical Representation – Visualizes slope (derivatives) and area under the curve (integrals) dynamically.
 ✔ Partial Derivatives – Handles multivariable functions (∂f/∂x, ∂f/∂y).
 ✔ Taylor & Maclaurin Series – Approximates functions using polynomial expansion.
-
+-->something like the website integralcalculator 
 
 📁 File Handling & History Tracking
 ✔ Saves Previous Calculations – Lets users review past computations later.
