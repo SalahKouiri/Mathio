@@ -4,4 +4,4 @@
 ✔ Interactive Error Handling – If an equation is wrong, Mathio gives suggestions instead of failing.
 ✔ Adaptive Problem-Solving Assistant – Learns how users solve problems and adapts explanations accordingly.
 
- 
+Wiiiiiigaaaaaaaaaaaa
