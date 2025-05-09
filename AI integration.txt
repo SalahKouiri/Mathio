@@ -1,0 +1,5 @@
+🧠 AI-Assisted Learning & Step-by-Step Explanations
+✔ Teaches Users Math Concepts – Guided explanations for complex calculations.
+✔ Shows Step-by-Step Solutions – Helps break down integrals, derivatives, matrix computations.
+✔ Interactive Error Handling – If an equation is wrong, Mathio gives suggestions instead of failing.
+✔ Adaptive Problem-Solving Assistant – Learns how users solve problems and adapts explanations accordingly.
