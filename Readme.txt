@@ -41,6 +41,15 @@ Mathio is more than just a calculator—it’s a learning companion, a problem s
 ✔ Bitwise Operations – AND, OR, XOR, shifting.
 ✔ IEEE Floating-Point Representation – Helps in understanding computer number storage.
 
+📊 Calculus Functions for Mathio
+✔ Differentiation – Computes derivatives of functions (dy/dx, second derivatives, etc.).
+✔ Integration – Supports definite & indefinite integrals, including advanced numerical methods.
+✔ Symbolic Calculus – Uses algorithms to solve derivatives/integrals step by step, showing intermediate calculations.
+✔ Graphical Representation – Visualizes slope (derivatives) and area under the curve (integrals) dynamically.
+✔ Partial Derivatives – Handles multivariable functions (∂f/∂x, ∂f/∂y).
+✔ Taylor & Maclaurin Series – Approximates functions using polynomial expansion.
+
+
 📁 File Handling & History Tracking
 ✔ Saves Previous Calculations – Lets users review past computations later.
 ✔ Supports Exporting Results – Allows saving outputs to text or PDF files for reference.
