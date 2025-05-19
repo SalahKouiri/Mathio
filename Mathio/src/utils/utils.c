@@ -5,12 +5,18 @@
 #include "utils.h"
 
 int is_valide_char(char c) {
-    return isdigit(c) || strchr("+-*/^().!% ",c);
+    return isdigit(c) || strchr("+-*/^().!%, ",c) || isalpha(c);
 }
 
 int validate_expression(const char *expression) {
     if (expression == NULL || expression[0] == '\0') {
         printf("Error: Expression is empty.\n");
+        return 0;
+    }
+
+    // Check for invalid starting operator (except minus for negative numbers)
+    if (strchr("+-*/^%", expression[0]) && expression[0] != '-') {
+        printf("Error: Expression cannot start with operator '%c'.\n", expression[0]);
         return 0;
     }
 
@@ -42,6 +48,16 @@ int validate_expression(const char *expression) {
                 printf("Error: Factorial '!' must follow a number or ')'.\n");
                 return 0;
             }
+        } else if (c == '%') {
+            if (!isdigit(last_non_space_char) && last_non_space_char != ')') {
+                printf("Error: Modulo '%' must follow a number or ')'.\n");
+                return 0;
+            }
+        } else if (c == ',') {
+            if(!isdigit(last_non_space_char) && last_non_space_char != ')') {
+                printf("Error: Comma ',' must follow a number or ')'.\n");
+                return 0;
+            }
         }
 
         last_non_space_char = c;
@@ -52,10 +68,19 @@ int validate_expression(const char *expression) {
         return 0; 
     }
 
-    if (strchr("+-*/^%", last_non_space_char)) { 
+    if (strchr("+-*/^%,", last_non_space_char)) { 
         printf("Error: Expression ends with an operator '%c'.\n", last_non_space_char);
         return 0; 
     }
 
     return 1; 
+}
+
+void *safe_malloc(size_t size) {
+    void *ptr = malloc(size);
+    if (ptr == NULL) {
+        fprintf(stderr, "Error: Memory allocation failed.\n");
+        exit(EXIT_FAILURE);
+    }
+    return ptr;
 }

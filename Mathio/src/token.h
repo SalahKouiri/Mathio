@@ -6,6 +6,11 @@ typedef enum {
     TOKEN_OPERATOR,
     TOKEN_PARENTHESIS, 
     TOKEN_FUNCTION, 
+    TOKEN_FACTORIAL,  
+    TOKEN_MODULO,     
+    TOKEN_CONSTANT,  
+    TOKEN_VARIABLE,  
+    TOKEN_COMMA, // New token type for variables
 }TokenType;
 
 typedef struct {
