@@ -14,5 +14,5 @@ double apply_function(const char *function_name, double *args, int arg_count);
 double evaluate_expression(Token *tokens, int token_count); 
 
 
-#endif // PARSER_H
+#endif 
 
