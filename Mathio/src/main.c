@@ -7,7 +7,6 @@
 #include "parser.h"
 #include "calculator.h"
 
-// Declare the function here
 double evaluate_expression(Token *tokens, int token_count);
 void perform_calculation() {
     char input[256];
@@ -24,7 +23,7 @@ void perform_calculation() {
             int token_count = 0;
             if (tokenize(input, &tokens, &token_count) < 0) {
                 printf("Tokenization failed.\n");
-                free(tokens); // Free allocated memory in case of failure
+                free(tokens); 
                 continue;
     }
 
@@ -35,7 +34,6 @@ void perform_calculation() {
                 printf("Evaluation failed.\n");
 }
 
-            // Free the allocated memory for tokens after use
             free(tokens);
 }
 }
