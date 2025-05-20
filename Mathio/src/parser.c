@@ -220,7 +220,6 @@ int tokenize(const char *expression, Token **tokens, int *token_count) {
     return 0; 
 }
 
-// Define operator precedence
 int get_operator_precedence(char op) {
     switch (op) {
         case '^': return 4;
@@ -230,37 +229,29 @@ int get_operator_precedence(char op) {
     }
 }
 
-// Check if token is a function
 int is_function_token(TokenType type) {
     return type == TOKEN_FUNCTION;
 }
 
-// Convert infix expression to RPN (postfix)
 int infix_to_postfix(Token *infix, int infix_count, Token **postfix, int *postfix_count) {
-    // Allocate memory for postfix expression (max size = infix size)
     *postfix = safe_malloc(infix_count * sizeof(Token));
     *postfix_count = 0;
     
-    // Operator stack
     Token *op_stack = safe_malloc(infix_count * sizeof(Token));
     int stack_size = 0;
     
-    // Process each token in the infix expression
     for (int i = 0; i < infix_count; i++) {
         switch (infix[i].type) {
             case TOKEN_NUMBER:
             case TOKEN_VARIABLE:
-                // Numbers and variables go directly to output
                 (*postfix)[(*postfix_count)++] = infix[i];
                 break;
                 
             case TOKEN_FUNCTION:
-                // Functions go on the stack
                 op_stack[stack_size++] = infix[i];
                 break;
                 
             case TOKEN_OPERATOR:
-                // Handle operators according to precedence
                 while (stack_size > 0 &&
                        op_stack[stack_size-1].type == TOKEN_OPERATOR &&
                        get_operator_precedence(op_stack[stack_size-1].value[0]) >= 
@@ -272,20 +263,16 @@ int infix_to_postfix(Token *infix, int infix_count, Token **postfix, int *postfi
                 
             case TOKEN_PARENTHESIS:
                 if (infix[i].value[0] == '(') {
-                    // Left parenthesis goes on the stack
                     op_stack[stack_size++] = infix[i];
                 } else {
-                    // Right parenthesis: pop until matching left parenthesis
                     while (stack_size > 0 && 
                            !(op_stack[stack_size-1].type == TOKEN_PARENTHESIS && 
                              op_stack[stack_size-1].value[0] == '(')) {
                         (*postfix)[(*postfix_count)++] = op_stack[--stack_size];
                     }
                     
-                    // Discard the left parenthesis
                     if (stack_size > 0) stack_size--;
                     
-                    // If the top of the stack is a function, pop it
                     if (stack_size > 0 && is_function_token(op_stack[stack_size-1].type)) {
                         (*postfix)[(*postfix_count)++] = op_stack[--stack_size];
                     }
@@ -293,7 +280,6 @@ int infix_to_postfix(Token *infix, int infix_count, Token **postfix, int *postfi
                 break;
                 
             case TOKEN_COMMA:
-                // Pop operators until left parenthesis
                 while (stack_size > 0 && 
                        !(op_stack[stack_size-1].type == TOKEN_PARENTHESIS && 
                          op_stack[stack_size-1].value[0] == '(')) {
@@ -302,18 +288,15 @@ int infix_to_postfix(Token *infix, int infix_count, Token **postfix, int *postfi
                 break;
                 
             case TOKEN_FACTORIAL:
-                // Factorial is a unary operator that goes directly to output 
-                // (it's applied to the last value)
                 (*postfix)[(*postfix_count)++] = infix[i];
                 break;
                 
             default:
-                // Other token types (handle as needed)
                 break;
         }
     }
     
-    // Pop any remaining operators from the stack
+   
     while (stack_size > 0) {
         (*postfix)[(*postfix_count)++] = op_stack[--stack_size];
     }
@@ -322,7 +305,7 @@ int infix_to_postfix(Token *infix, int infix_count, Token **postfix, int *postfi
     return 0;
 }
 
-// Get number of arguments for a function
+
 int get_function_arg_count(const char *function_name) {
     if (strcasecmp(function_name, "sin") == 0 ||
         strcasecmp(function_name, "cos") == 0 ||
@@ -340,17 +323,16 @@ int get_function_arg_count(const char *function_name) {
         strcasecmp(function_name, "asinh") == 0 ||
         strcasecmp(function_name, "acosh") == 0 ||
         strcasecmp(function_name, "atanh") == 0) {
-        return 1; // One argument functions
+        return 1; 
     } else if (strcasecmp(function_name, "log") == 0 ||
               strcasecmp(function_name, "power") == 0) {
-        return 2; // Two argument functions
+        return 2; 
     }
     
     fprintf(stderr, "Error: Unknown function '%s'.\n", function_name);
-    return 0; // Unknown function
+    return 0; 
 }
 
-// Apply a function to its arguments
 double apply_function(const char *function_name, double *args, int arg_count) {
     if (strcasecmp(function_name, "sin") == 0 ||
         strcasecmp(function_name, "cos") == 0 ||
@@ -396,7 +378,6 @@ double apply_function(const char *function_name, double *args, int arg_count) {
     return NAN;
 }
 
-// Evaluate a RPN expression
 double evaluate_rpn(Token *postfix, int token_count) {
     #define MAX_STACK_SIZE 100
     #define MAX_FUNC_ARGS 10
@@ -408,19 +389,17 @@ double evaluate_rpn(Token *postfix, int token_count) {
     for (int i = 0; i < token_count; i++) {
         switch (postfix[i].type) {
             case TOKEN_NUMBER:
-                // Push number to stack
                 value_stack[stack_size++] = atof(postfix[i].value);
                 break;
                 
             case TOKEN_OPERATOR:
-                // Handle binary operators
                 if (stack_size < 2) {
                     fprintf(stderr, "Error: Not enough values for operator '%s'.\n", postfix[i].value);
                     return NAN;
                 }
                 
-                double op2 = value_stack[--stack_size]; // Second operand
-                double op1 = value_stack[--stack_size]; // First operand
+                double op2 = value_stack[--stack_size]; 
+                double op1 = value_stack[--stack_size]; 
                 double result;
                 
                 switch (postfix[i].value[0]) {
@@ -451,7 +430,6 @@ double evaluate_rpn(Token *postfix, int token_count) {
                 break;
                 
             case TOKEN_FUNCTION:
-                // Handle functions
                 arg_count = get_function_arg_count(postfix[i].value);
                 
                 if (stack_size < arg_count) {
@@ -461,18 +439,15 @@ double evaluate_rpn(Token *postfix, int token_count) {
                 
                 double args[MAX_FUNC_ARGS];
                 
-                // Pop arguments in reverse order
                 for (int j = arg_count - 1; j >= 0; j--) {
                     args[j] = value_stack[--stack_size];
                 }
                 
-                // Apply function
                 double func_result = apply_function(postfix[i].value, args, arg_count);
                 value_stack[stack_size++] = func_result;
                 break;
                 
             case TOKEN_FACTORIAL:
-                // Factorial operator
                 if (stack_size < 1) {
                     fprintf(stderr, "Error: Not enough values for factorial.\n");
                     return NAN;
@@ -484,12 +459,10 @@ double evaluate_rpn(Token *postfix, int token_count) {
                 break;
                 
             case TOKEN_VARIABLE:
-                // For now, treat all variables as 0 (placeholder)
                 fprintf(stderr, "Error: Variables not supported yet.\n");
                 return NAN;
                 
             default:
-                // Other token types shouldn't appear in RPN
                 fprintf(stderr, "Error: Invalid token in RPN expression.\n");
                 return NAN;
         }
@@ -500,24 +473,20 @@ double evaluate_rpn(Token *postfix, int token_count) {
         return NAN;
     }
     
-    return value_stack[0];  // Final result
+    return value_stack[0];  
 }
 
-// Main evaluation function that handles the whole process
 double evaluate_expression(Token *tokens, int token_count) {
     Token *postfix;
     int postfix_count;
     
-    // Convert infix to postfix
     if (infix_to_postfix(tokens, token_count, &postfix, &postfix_count) != 0) {
         fprintf(stderr, "Error converting expression to postfix notation.\n");
         return NAN;
     }
     
-    // Evaluate postfix expression
     double result = evaluate_rpn(postfix, postfix_count);
     
-    // Clean up
     free(postfix);
     
     return result;
