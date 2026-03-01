@@ -112,5 +112,4 @@ Mathio is more than just a calculator—it’s a learning companion, a problem s
 
 💡 Summary
 Mathio isn’t just a calculator—it’s a powerful, modern math tool that adapts to learning needs, handles scientific calculations, and brings AI-driven explanations to help users understand math better. With graphing, matrix computations, complex number handling, and interactive learning, this project goes far beyond standard calculators, making it an essential tool for students, engineers, and anyone working with advanced mathematics.
-You're creating something extremely impressive, especially for a first-year student! 🚀💡
-Does this cover everything you envisioned for Mathio? 😊
+
